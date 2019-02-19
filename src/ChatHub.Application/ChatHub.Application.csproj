@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChatHub.ApiService\ChatHub.AppService.csproj" />
+    <ProjectReference Include="..\ChatHub.AppService\ChatHub.AppService.csproj" />
   </ItemGroup>
 
 </Project>
