@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ChatHub.ApiService.MessengerModule;
-using ChatHub.ApiService.MessengerModule.Models;
+using ChatHub.AppService.MessengerModule;
+using ChatHub.AppService.MessengerModule.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ChatHub.Api.Controllers
+namespace ChatHub.Application.Controllers
 {
     [ApiController, Authorize, Route("api/[controller]/[action]")]
     public class MessageController : ControllerBase

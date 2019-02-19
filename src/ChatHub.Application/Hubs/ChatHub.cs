@@ -1,6 +1,6 @@
-﻿using ChatHub.ApiService.AuthenticateModule;
-using ChatHub.ApiService.MessengerModule;
-using ChatHub.ApiService.MessengerModule.Models;
+﻿using ChatHub.AppService.AuthenticateModule;
+using ChatHub.AppService.MessengerModule;
+using ChatHub.AppService.MessengerModule.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ChatHub.Api.Hubs
+namespace ChatHub.Application.Hubs
 {
     [Authorize]
     public class ChatHub : Hub

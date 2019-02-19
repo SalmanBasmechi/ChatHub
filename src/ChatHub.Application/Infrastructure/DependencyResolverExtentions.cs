@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ChatHub.Api.Infrastructure
+namespace ChatHub.Application.Infrastructure
 {
     public static class DependencyResolverExtentions
     {

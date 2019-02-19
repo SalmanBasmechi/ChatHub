@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ChatHub.ApiService.AuthenticateModule;
-using ChatHub.ApiService.LoginModule;
+using ChatHub.AppService.AuthenticateModule;
+using ChatHub.AppService.LoginModule;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ChatHub.Api.Controllers
+namespace ChatHub.Application.Controllers
 {
     [ApiController, Route("api/[controller]")]
     public class UserController : ControllerBase

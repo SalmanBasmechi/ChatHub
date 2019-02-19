@@ -1,10 +1,10 @@
-﻿using ChatHub.ApiService.MessengerModule.Models;
+﻿using ChatHub.AppService.MessengerModule.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatHub.ApiService.MessengerModule
+namespace ChatHub.AppService.MessengerModule
 {
     public interface IMessengerModule
     {

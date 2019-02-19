@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatHub.ApiService.LoginModule
+namespace ChatHub.AppService.LoginModule
 {
     public interface ILoginModule
     {

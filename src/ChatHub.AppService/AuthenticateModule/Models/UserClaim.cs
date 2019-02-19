@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChatHub.ApiService.AuthenticateModule.Models
+namespace ChatHub.AppService.AuthenticateModule.Models
 {
     public class UserClaim
     {

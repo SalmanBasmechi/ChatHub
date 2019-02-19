@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyName>ChatHub.Application</AssemblyName>
+    <RootNamespace>ChatHub.Application</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChatHub.ApiService\ChatHub.ApiService.csproj" />
+    <ProjectReference Include="..\ChatHub.ApiService\ChatHub.AppService.csproj" />
   </ItemGroup>
 
 </Project>

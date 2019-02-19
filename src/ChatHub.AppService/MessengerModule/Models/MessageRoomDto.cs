@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChatHub.ApiService.MessengerModule.Models
+namespace ChatHub.AppService.MessengerModule.Models
 {
     public class MessageRoomDto
     {
