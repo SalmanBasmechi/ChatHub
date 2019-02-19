@@ -32,14 +32,14 @@ namespace ChatHub.Api.Hubs
 
             await messengerModule.InsertMessage(messageDto);
 
-            await Clients.All.SendAsync("OnReceivedMessage", Context.User.GetName(), messageDto);
+            await Clients.Others.SendAsync("OnReceivedMessage", Context.User.GetName(), messageDto);
         }
 
         public async Task CreateMessageRoom(string name)
         {
             MessageRoomDto messageRoomDto = await messengerModule.InsertMessageRoom(name);
 
-            await Clients.All.SendAsync("OnMessageRoomCreate", messageRoomDto);
+            await Clients.Others.SendAsync("OnMessageRoomCreate", messageRoomDto);
         }
     }
 }
