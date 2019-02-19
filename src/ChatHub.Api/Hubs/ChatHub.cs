@@ -1,4 +1,6 @@
-﻿using ChatHub.ApiService.MessengerModule;
+﻿using ChatHub.ApiService.AuthenticateModule;
+using ChatHub.ApiService.MessengerModule;
+using ChatHub.ApiService.MessengerModule.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -20,7 +22,24 @@ namespace ChatHub.Api.Hubs
 
         public async Task SendMessage(string message, Guid roomId)
         {
-            await Clients.All.SendAsync("OnReceivedMessage", Context.User.Identity.Name, message);
+            MessageDto messageDto = new MessageDto()
+            {
+                UserId = Context.User.GetId(),
+                MessageRoomId = roomId,
+                Text = message,
+                SubmitDateTime = DateTime.Now
+            };
+
+            await messengerModule.InsertMessage(messageDto);
+
+            await Clients.All.SendAsync("OnReceivedMessage", Context.User.GetName(), messageDto);
+        }
+
+        public async Task CreateMessageRoom(string name)
+        {
+            MessageRoomDto messageRoomDto = await messengerModule.InsertMessageRoom(name);
+
+            await Clients.All.SendAsync("OnMessageRoomCreate", messageRoomDto);
         }
     }
 }

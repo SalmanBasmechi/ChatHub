@@ -8,16 +8,16 @@ namespace ChatHub.ApiService.MessengerModule
 {
     public interface IMessengerModule
     {
-        Task InsertMessage(MessageDto value);
+        Task<MessageDto> InsertMessage(MessageDto value);
 
-        Task<IList<MessageDto>> SearchMessagesInAllRoom(string keyword);
+        Task<IEnumerable<MessageDto>> SearchMessagesInAllRoom(string keyword);
 
-        Task<IList<MessageRoomDto>> GetLastMessages(object messageRoomId, object lastMessageId = null);
+        Task<IEnumerable<MessageDto>> GetLastMessages(object messageRoomId, object lastMessageId = null);
 
-        Task InsertMessageRoom(MessageRoomDto value);
+        Task<MessageRoomDto> InsertMessageRoom(string name);
 
-        Task<IList<MessageRoomDto>> SearchMessageRooms(string keyword);
+        Task<IEnumerable<MessageRoomDto>> SearchMessageRooms(string keyword);
 
-        Task<IList<MessageRoomDto>> GetMessageRooms();
+        Task<IEnumerable<MessageRoomDto>> GetMessageRooms();
     }
 }
