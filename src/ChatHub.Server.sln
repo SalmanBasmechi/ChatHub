@@ -5,13 +5,11 @@ VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatHub.Api", "ChatHub.Api\ChatHub.Api.csproj", "{1538FB4D-219B-43D5-9C58-06C86FBE4FDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatHub.ApiService", "ChatHub.ApiService\ChatHub.ApiService.csproj", "{9D99A900-DC5E-446E-B232-B0F932063CDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatHub.ApiService", "ChatHub.ApiService\ChatHub.ApiService.csproj", "{9D99A900-DC5E-446E-B232-B0F932063CDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatHub.Domain", "ChatHub.Domain\ChatHub.Domain.csproj", "{16AA1CA0-237A-4C1E-803B-D1DD82A639B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatHub.Domain", "ChatHub.Domain\ChatHub.Domain.csproj", "{16AA1CA0-237A-4C1E-803B-D1DD82A639B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatHub.DomainService", "ChatHub.DomainService\ChatHub.DomainService.csproj", "{28E0AEA4-A83C-4558-B5E9-D6CB73E4B492}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatHub.Infrastructure", "ChatHub.Infrastructure\ChatHub.Infrastructure.csproj", "{1D897EC4-FAFB-4A81-B708-41EC024E1150}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatHub.DomainService", "ChatHub.DomainService\ChatHub.DomainService.csproj", "{28E0AEA4-A83C-4558-B5E9-D6CB73E4B492}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{28E0AEA4-A83C-4558-B5E9-D6CB73E4B492}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28E0AEA4-A83C-4558-B5E9-D6CB73E4B492}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28E0AEA4-A83C-4558-B5E9-D6CB73E4B492}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D897EC4-FAFB-4A81-B708-41EC024E1150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D897EC4-FAFB-4A81-B708-41EC024E1150}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D897EC4-FAFB-4A81-B708-41EC024E1150}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D897EC4-FAFB-4A81-B708-41EC024E1150}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,13 +8,12 @@ using System.Text;
 
 namespace ChatHub.Domain.MessageRooms
 {
-    public class MessageRoom : IEntity
+    public class MessageRoom : BaseEntity
     {
-        [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
-
         [MaxLength(50)]
         public string Name { get; set; }
+
+        public DateTime SubmitDateTime { get; set; } = DateTime.Now;
 
         [InverseProperty("MessageRoom")]
         public virtual ICollection<Message> Messages { get; set; }

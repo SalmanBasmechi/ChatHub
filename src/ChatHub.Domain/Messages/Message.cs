@@ -8,12 +8,11 @@ using System.Text;
 
 namespace ChatHub.Domain.Messages
 {
-    public class Message : IEntity
+    public class Message : BaseEntity
     {
-        [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
-
         public string Text { get; set; }
+
+        public DateTime SubmitDateTime { get; set; } = DateTime.Now;
 
         [ForeignKey("UserId")]
         public virtual User User { get; set; }

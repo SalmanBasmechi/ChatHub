@@ -1,7 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ChatHub.DomainService\ChatHub.DomainService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AuthenticateModule\Services\" />
+    <Folder Include="LoginModule\Models\" />
+    <Folder Include="LoginModule\Services\" />
+    <Folder Include="MessengerModule\Services\" />
+  </ItemGroup>
 
 </Project>

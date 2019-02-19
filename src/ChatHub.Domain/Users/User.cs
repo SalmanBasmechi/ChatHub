@@ -7,13 +7,13 @@ using System.Text;
 
 namespace ChatHub.Domain.Users
 {
-    public class User : IEntity
+    public class User : BaseEntity
     {
-        [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
-
         [MaxLength(50)]
         public string Name { get; set; }
+
+        [Column(TypeName = "varchar(15)")]
+        public string Mobile { get; set; }
 
         [InverseProperty("User")]
         public virtual ICollection<Message> Messages { get; set; }
