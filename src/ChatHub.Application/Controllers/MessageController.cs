@@ -20,7 +20,7 @@ namespace ChatHub.Application.Controllers
             this.messengerModule = messengerModule;
         }
         
-        [HttpGet, Route("{messageRoomId:guid}/{lastMessageId?:guid}")]
+        [HttpGet, Route("{messageRoomId:guid}/{lastMessageId:guid?}")]
         public async Task<JsonResult> GetAll(Guid messageRoomId, Guid? lastMessageId)
         {
             IEnumerable<MessageDto> messages = await messengerModule.GetLastMessages(messageRoomId, lastMessageId);

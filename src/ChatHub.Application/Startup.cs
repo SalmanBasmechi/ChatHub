@@ -13,8 +13,8 @@ namespace ChatHub.Application
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore();
-            services.AddSignalRCore();
+            services.AddMvc();
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -24,9 +24,20 @@ namespace ChatHub.Application
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseCookiePolicy();
+
             app.UseSignalR(routes =>
             {
                 routes.MapHub<Hubs.ChatHub>("/Hubs/Chat");
+            });
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}");
             });
         }
     }
