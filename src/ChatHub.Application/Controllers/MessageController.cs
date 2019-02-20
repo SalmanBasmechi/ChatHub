@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChatHub.Application.Controllers
 {
-    [ApiController, Route("api/[controller]/[action]")]
+    [ApiController, Authorize, Route("api/[controller]/[action]")]
     public class MessageController : ControllerBase
     {
         private readonly IMessengerModule messengerModule;
