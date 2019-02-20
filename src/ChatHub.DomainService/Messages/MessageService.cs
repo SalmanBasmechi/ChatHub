@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ChatHub.DomainService.Messages
 {
-    public class MessageService : BaseService<Message, MessageDto>, IMessageService
+    public class MessageService : BaseEFService<Message, MessageDto>, IMessageService
     {
         private readonly ChatHubEntities dbContext;
 

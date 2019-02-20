@@ -21,6 +21,6 @@ namespace ChatHub.DomainService.EFContext
 
         public DbSet<Message> Messages { get; set; }
 
-        public DbSet<Domain.MessageRooms.MessageRoom> MessageRooms { get; set; }
+        public DbSet<MessageRoom> MessageRooms { get; set; }
     }
 }

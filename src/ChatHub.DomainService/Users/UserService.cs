@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChatHub.DomainService.Users
 {
-    public class UserService : BaseService<User, UserDto>, IUserService
+    public class UserService : BaseEFService<User, UserDto>, IUserService
     {
         private readonly ChatHubEntities dbContext;
 

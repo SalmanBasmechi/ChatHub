@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ChatHub.DomainService
 {
-    public abstract class BaseService<TInput, TOutput> : IBaseService<TOutput> where TInput : BaseEntity where TOutput : BaseOutput
+    public abstract class BaseEFService<TInput, TOutput> : IBaseService<TOutput> where TInput : BaseEntity where TOutput : BaseOutput
     {
         private readonly ChatHubEntities dbContext;
 
-        protected BaseService(ChatHubEntities dbContext)
+        protected BaseEFService(ChatHubEntities dbContext)
         {
             this.dbContext = dbContext;
         }

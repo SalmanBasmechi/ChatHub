@@ -12,7 +12,7 @@ using MessageRoomDto = ChatHub.DomainService.MessageRooms.Models.MessageRoomDto;
 
 namespace ChatHub.DomainService.MessageRooms
 {
-    public class MessageRoomService : BaseService<MessageRoom, MessageRoomDto>, IMessageRoomService
+    public class MessageRoomService : BaseEFService<MessageRoom, MessageRoomDto>, IMessageRoomService
     {
         private readonly ChatHubEntities dbContext;
 
