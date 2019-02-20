@@ -1,10 +1,10 @@
-﻿using ChatHub.AppService.AuthenticateModule.Models;
+﻿using ChatHub.AppService.LoginModule.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 
-namespace ChatHub.AppService.AuthenticateModule
+namespace ChatHub.AppService.LoginModule
 {
     public static class AuthenticateExtentions
     {

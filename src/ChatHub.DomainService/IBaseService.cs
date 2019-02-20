@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatHub.DomainService.Generics
+namespace ChatHub.DomainService
 {
-    public interface ICrud<T> where T : BaseEntity
+    public interface IBaseService<T> where T : BaseOutput
     {
         T Create(T entity);
 
@@ -15,7 +15,5 @@ namespace ChatHub.DomainService.Generics
         void Update(T entity);
 
         void Delete(T entity);
-
-        Task Delete(object id);
     }
 }

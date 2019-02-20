@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ChatHub.AppService.AuthenticateModule;
 using ChatHub.AppService.LoginModule;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,12 +12,10 @@ namespace ChatHub.Application.Controllers
     [ApiController, Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IAuthenticateModule authenticateModule;
         private readonly ILoginModule loginModule;
 
-        public UserController(IAuthenticateModule authenticateModule, ILoginModule loginModule)
+        public UserController(ILoginModule loginModule)
         {
-            this.authenticateModule = authenticateModule;
             this.loginModule = loginModule;            
         }
 
@@ -29,7 +26,7 @@ namespace ChatHub.Application.Controllers
             return Ok();
         }
 
-        [HttpDelete, Authorize]
+        [Authorize]
         public IActionResult Logout()
         {
             loginModule.Logout();

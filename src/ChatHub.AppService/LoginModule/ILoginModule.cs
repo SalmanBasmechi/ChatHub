@@ -1,4 +1,5 @@
-﻿using ChatHub.Domain.Users;
+﻿using ChatHub.AppService.LoginModule.Models;
+using ChatHub.DomainService.Users.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,9 @@ namespace ChatHub.AppService.LoginModule
 {
     public interface ILoginModule
     {
-        Task<User> LoginAsync(string mobile);
+        Task<UserDto> LoginAsync(string mobile);
+
+        void SetAuthCookie(UserClaim userClaim);
 
         void Logout();
     }

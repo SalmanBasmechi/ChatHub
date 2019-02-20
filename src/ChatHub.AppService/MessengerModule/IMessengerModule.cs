@@ -1,4 +1,5 @@
-﻿using ChatHub.AppService.MessengerModule.Models;
+﻿using ChatHub.DomainService.MessageRooms.Models;
+using ChatHub.DomainService.Messages.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,16 +9,18 @@ namespace ChatHub.AppService.MessengerModule
 {
     public interface IMessengerModule
     {
-        Task<MessageDto> InsertMessage(MessageDto value);
+        Task<MessageDto> InsertMessage(Guid userId, Guid messageRoomId, string text);
 
-        Task<IEnumerable<MessageDto>> SearchMessagesInAllRoom(string keyword);
+        Task<IList<MessageDto>> SearchMessagesInAllRoom(string keyword);
 
-        Task<IEnumerable<MessageDto>> GetLastMessages(object messageRoomId, object lastMessageId = null);
+        Task<IList<MessageDto>> GetLastMessages(Guid messageRoomId);
+
+        Task<IList<MessageDto>> GetLastMessages(Guid messageRoomId, Guid lastMessageId);        
 
         Task<MessageRoomDto> InsertMessageRoom(string name);
 
-        Task<IEnumerable<MessageRoomDto>> SearchMessageRooms(string keyword);
+        Task<IList<MessageRoomDto>> SearchMessageRooms(string keyword);
 
-        Task<IEnumerable<MessageRoomDto>> GetMessageRooms();
+        Task<IList<MessageRoomDto>> GetMessageRooms();
     }
 }

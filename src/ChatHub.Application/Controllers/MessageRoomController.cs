@@ -1,5 +1,5 @@
 ﻿using ChatHub.AppService.MessengerModule;
-using ChatHub.AppService.MessengerModule.Models;
+using ChatHub.DomainService.MessageRooms.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,10 +18,9 @@ namespace ChatHub.Application.Controllers
             this.messengerModule = messengerModule;
         }
 
-        [HttpGet]
         public async Task<JsonResult> GetAll()
         {
-            IEnumerable<MessageRoomDto> messageRooms = await messengerModule.GetMessageRooms();
+            IList<MessageRoomDto> messageRooms = await messengerModule.GetMessageRooms();
 
             return new JsonResult(messageRooms);
         }
@@ -29,7 +28,7 @@ namespace ChatHub.Application.Controllers
         [HttpPost]
         public async Task<JsonResult> Search([FromBody] string keywork)
         {
-            IEnumerable<MessageRoomDto> messageRooms = await messengerModule.SearchMessageRooms(keywork);
+            IList<MessageRoomDto> messageRooms = await messengerModule.SearchMessageRooms(keywork);
 
             return new JsonResult(messageRooms);
         }

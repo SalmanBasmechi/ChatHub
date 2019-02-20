@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChatHub.Application.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +16,9 @@ namespace ChatHub.Application
         {
             services.AddMvc();
             services.AddSignalR();
+
+            services.AddApplicationServices();
+            services.AddDomainServices();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

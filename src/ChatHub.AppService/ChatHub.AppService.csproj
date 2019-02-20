@@ -9,10 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AuthenticateModule\Services\" />
-    <Folder Include="LoginModule\Models\" />
-    <Folder Include="LoginModule\Services\" />
-    <Folder Include="MessengerModule\Services\" />
+    <Folder Include="MessengerModule\Models\" />
   </ItemGroup>
 
 </Project>

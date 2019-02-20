@@ -1,6 +1,7 @@
-﻿using ChatHub.AppService.AuthenticateModule;
+﻿using ChatHub.AppService.LoginModule;
 using ChatHub.AppService.MessengerModule;
-using ChatHub.AppService.MessengerModule.Models;
+using ChatHub.DomainService.MessageRooms.Models;
+using ChatHub.DomainService.Messages.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -20,17 +21,9 @@ namespace ChatHub.Application.Hubs
             this.messengerModule = messengerModule;
         }
 
-        public async Task SendMessage(string message, Guid roomId)
+        public async Task SendMessage(string message, Guid messageRoomId)
         {
-            MessageDto messageDto = new MessageDto()
-            {
-                UserId = Context.User.GetId(),
-                MessageRoomId = roomId,
-                Text = message,
-                SubmitDateTime = DateTime.Now
-            };
-
-            await messengerModule.InsertMessage(messageDto);
+            MessageDto messageDto = await messengerModule.InsertMessage(Context.User.GetId(), messageRoomId, message);
 
             await Clients.Others.SendAsync("OnReceivedMessage", Context.User.GetName(), messageDto);
         }
