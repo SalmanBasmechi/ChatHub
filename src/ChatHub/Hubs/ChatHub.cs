@@ -1,7 +1,7 @@
 ﻿using ChatHub.Data.EFContext;
+using ChatHub.Infrastructure;
 using ChatHub.Models.MessageRooms;
 using ChatHub.Models.Messages;
-using ChatHub.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;

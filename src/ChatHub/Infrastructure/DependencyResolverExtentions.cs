@@ -1,10 +1,5 @@
-﻿using ChatHub.Data;
-using ChatHub.Data.EFContext;
+﻿using ChatHub.Data.EFContext;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ChatHub.Infrastructure
 {
