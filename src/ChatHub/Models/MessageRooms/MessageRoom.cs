@@ -8,7 +8,7 @@ namespace ChatHub.Models.MessageRooms
 {
     public class MessageRoom : BaseEntity
     {
-        [MaxLength(50)]
+        [Required, MaxLength(50)]
         public string Name { get; set; }
 
         public DateTime SubmitDateTime { get; set; }

@@ -1,5 +1,5 @@
 ﻿
-@{ 
+@{
     ViewBag.Title = "ChatHub-Login";
 }
 
@@ -9,24 +9,74 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-defult">+98</span>
             </div>
-            <input class="form-control box-shadow" id="mobile" required type="text" aria-label="defult" aria-describedby="inputGroup-sizing-sm" placeholder="Enter your mobile number...">
+            <input class="form-control box-shadow" id="mobile" type="text" aria-label="defult" aria-describedby="inputGroup-sizing-sm" placeholder="Enter your mobile number...">
         </div>
         <div>
-            <input class="form-control box-shadow" id="name" required style="margin-top:20px; width:400px;" type="text" placeholder="Enter your name..." />
+            <input class="form-control box-shadow" id="name" hidden style="margin-top:20px; width:400px;" type="text" placeholder="Enter your name..." />
         </div>
         <div>
-            <button id="login" style="margin-top:20px;width:400px;" type="button" class="btn btn-primary">Login</button>
+            <button id="login" style="margin-top:20px;width:400px;" type="submit" class="btn btn-primary">Login</button>
         </div>
     </div>
 </div>
 
 <script>
+    var loginMethod = null;
+    var validationMethod = null;
 
     window.onload = function () {
+        loginMethod = login;
+        validationMethod = mobileIsNotValid;
+
         $("#login").click(function () {
+            if (validationMethod()) {
+                alert("Enter input please");
+                return;
+            }
+            loginMethod();
+        });
+
+        function mobileIsNotValid() {
+            return !$("#mobile").val();
+        }
+
+        function modelIsNotValid() {
+            return !$("#name").val() | !$("#mobile").val();
+        }
+
+        function login() {
             $(this).prop("disabled", true);
             $.ajax({
                 url: "api/user/login",
+                method: "post",
+                contentType: 'application/json',
+                data: $("#mobile").val(),
+                success: function () {
+                    window.location.replace("home/app");
+                },
+                error: function (ex) {
+                    switch (ex.status) {
+                        case 404: {                            
+                            loginMethod = createAndLogin;
+                            validationMethod = modelIsNotValid;
+                            document.getElementById("name").hidden = false;
+                            document.getElementById("name").focus();
+                            document.getElementById("login").textContent = "Continue...";
+                            break;
+                        }
+                        default: {
+                            alert('an error occured!');
+                            break;
+                        }
+                    }
+                }
+            });
+        }
+
+        function createAndLogin() {
+            $(this).prop("disabled", true);
+            $.ajax({
+                url: "api/user/create",
                 method: "post",
                 contentType: 'application/json',
                 data: JSON.stringify({
@@ -37,10 +87,19 @@
                     window.location.replace("home/app");
                 },
                 error: function (ex) {
-                    alert(ex);
+                    switch (ex.status) {
+                        case 500: {
+                            alert(ex.responseText);
+                            break;
+                        }
+                        default: {
+                            alert('an error occured!');
+                            break;
+                        }
+                    }
                 }
             });
-        });
+        }
     }
 
 </script>

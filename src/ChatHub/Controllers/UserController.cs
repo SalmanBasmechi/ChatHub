@@ -18,27 +18,43 @@ namespace ChatHub.Controllers
             this.dbContext = dbContext;
         }
 
-        [HttpPost, AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] User value)
+        [HttpPost, ValidateModel, AllowAnonymous]
+        public async Task<IActionResult> Create([FromBody] User value)
         {
-            User user = await dbContext.Users.SingleOrDefaultAsync(c => c.Mobile == value.Mobile);
+            bool exist = await dbContext.Users.AnyAsync(c => c.Mobile == value.Mobile);
+
+            if (exist)
+            {
+                return BadRequest("An user is available with this mobile number");
+            }
+
+            User user = new User()
+            {
+                Mobile = value.Mobile,
+                Name = value.Name
+            };
+
+            dbContext.Users.Add(user);
+
+            int result = await dbContext.SaveChangesAsync();
+
+            if (result <= 0)
+            {
+                return BadRequest();
+            }
+
+            await HttpContext.SetAuthCookieAsync(user);
+            return Ok();
+        }
+
+        [HttpPost, AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] string mobile)
+        {
+            User user = await dbContext.Users.SingleOrDefaultAsync(c => c.Mobile == mobile);
 
             if (user == null)
             {
-                user = new User()
-                {
-                    Mobile = value.Mobile,
-                    Name = value.Name
-                };
-
-                dbContext.Users.Add(user);
-
-                int result = await dbContext.SaveChangesAsync();
-
-                if (result <= 0)
-                {
-                    return BadRequest();
-                }
+                return NotFound();
             }
 
             await HttpContext.SetAuthCookieAsync(user);

@@ -13,17 +13,17 @@ namespace ChatHub.Infrastructure
     {
         public static Guid GetId(this ClaimsPrincipal claimsPrincipal)
         {
-            throw new NotImplementedException();
+            return Guid.Parse(claimsPrincipal.FindFirstValue("Id"));
         }
 
         public static string GetName(this ClaimsPrincipal claimsPrincipal)
         {
-            throw new NotImplementedException();
+            return claimsPrincipal.FindFirstValue("Name");
         }
 
         public static string GetMobile(this ClaimsPrincipal claimsPrincipal)
         {
-            throw new NotImplementedException();
+            return claimsPrincipal.FindFirstValue("Mobile");
         }
 
         public static async Task SetAuthCookieAsync(this HttpContext httpContext, User user)

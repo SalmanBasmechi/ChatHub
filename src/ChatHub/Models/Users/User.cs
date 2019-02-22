@@ -7,10 +7,10 @@ namespace ChatHub.Models.Users
 {
     public class User : BaseEntity
     {
-        [MaxLength(50)]
+        [Required, MaxLength(50)]
         public string Name { get; set; }
 
-        [Column(TypeName = "varchar(15)")]
+        [Required, Column(TypeName = "varchar(15)")]
         public string Mobile { get; set; }
 
         [InverseProperty("User")]

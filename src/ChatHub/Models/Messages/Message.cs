@@ -1,12 +1,14 @@
 ﻿using ChatHub.Models.MessageRooms;
 using ChatHub.Models.Users;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChatHub.Models.Messages
 {
     public class Message : BaseEntity
     {
+        [Required]
         public string Text { get; set; }
 
         public DateTime SubmitDateTime { get; set; }
