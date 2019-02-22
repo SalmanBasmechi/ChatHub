@@ -27,6 +27,7 @@ namespace ChatHub.Controllers
                                                   c.Name,
                                                   c.SubmitDateTime
                                               })
+                                              .OrderByDescending(c => c.Name)
                                               .ToListAsync();
 
             return new JsonResult(messageRooms);
@@ -43,6 +44,7 @@ namespace ChatHub.Controllers
                                                   c.Name,
                                                   c.SubmitDateTime
                                               })
+                                              .OrderByDescending(c => c.Name)
                                               .ToListAsync();
 
             return new JsonResult(messageRooms);

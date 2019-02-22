@@ -19,6 +19,16 @@ namespace ChatHub.Hubs
             this.dbContext = dbContext;
         }
 
+        public async Task JoinMessageRoom(Guid messageRoomId)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, messageRoomId.ToString());
+        }
+
+        public async Task LeaveMessageRoom(Guid messageRoomId)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, messageRoomId.ToString());
+        }
+
         public async Task SendMessage(string text, Guid messageRoomId)
         {
             var message = dbContext.Messages.Add(new Message()
@@ -33,8 +43,8 @@ namespace ChatHub.Hubs
 
             if (result > 0)
             {
-                await Clients.All.SendAsync("OnReceivedMessage", Context.User.GetName(), message);
-            }            
+                await Clients.Group(messageRoomId.ToString()).SendAsync("onReceiveMessage", Context.User.GetName(), message);
+            }
         }
 
         public async Task CreateMessageRoom(string name)
@@ -49,7 +59,7 @@ namespace ChatHub.Hubs
 
             if(result > 0)
             {
-                await Clients.All.SendAsync("OnMessageRoomCreate", messageRoom);
+                await Clients.All.SendAsync("onCreateMessageRoom", messageRoom);
             }
         }
     }
