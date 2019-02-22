@@ -9,7 +9,7 @@ namespace ChatHub.Models.Messages
     {
         public string Text { get; set; }
 
-        public DateTime SubmitDateTime { get; set; } = DateTime.Now;
+        public DateTime SubmitDateTime { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User User { get; set; }

@@ -1,1 +1,46 @@
 ﻿
+@{ 
+    ViewBag.Title = "ChatHub-Login";
+}
+
+<div class="container d-flex justify-content-center" style="position:fixed; top:30%;">
+    <div class="my-auto jumbotron" style="background-color:#f1f1f7">
+        <div style="width:400px;" class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-defult">+98</span>
+            </div>
+            <input class="form-control box-shadow" id="mobile" required type="text" aria-label="defult" aria-describedby="inputGroup-sizing-sm" placeholder="Enter your mobile number...">
+        </div>
+        <div>
+            <input class="form-control box-shadow" id="name" required style="margin-top:20px; width:400px;" type="text" placeholder="Enter your name..." />
+        </div>
+        <div>
+            <button id="login" style="margin-top:20px;width:400px;" type="button" class="btn btn-primary">Login</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    window.onload = function () {
+        $("#login").click(function () {
+            $(this).prop("disabled", true);
+            $.ajax({
+                url: "api/user/login",
+                method: "post",
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    mobile: $("#mobile").val(),
+                    name: $("#name").val()
+                }),
+                success: function () {
+                    window.location.replace("home/app");
+                },
+                error: function (ex) {
+                    alert(ex);
+                }
+            });
+        });
+    }
+
+</script>

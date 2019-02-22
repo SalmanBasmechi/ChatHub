@@ -18,7 +18,7 @@ namespace ChatHub.Controllers
             this.dbContext = dbContext;
         }
 
-        [HttpGet, Route("{messageRoomId:guid}")]
+        [Route("{messageRoomId:guid}")]
         public async Task<JsonResult> GetAll(Guid messageRoomId)
         {
             var messages = await dbContext.Messages
@@ -37,7 +37,7 @@ namespace ChatHub.Controllers
             return new JsonResult(messages);
         }
 
-        [HttpGet, Route("{messageRoomId:guid}/{page:int}")]
+        [Route("{messageRoomId:guid}/{page:int}")]
         public async Task<JsonResult> GetAll(Guid messageRoomId, int page)
         {
             var messages = await dbContext.Messages
@@ -58,8 +58,8 @@ namespace ChatHub.Controllers
             return new JsonResult(messages);
         }
 
-        [HttpPost]
-        public async Task<JsonResult> Search([FromBody] string keywork)
+        [Route("{keywork}")]
+        public async Task<JsonResult> Search(string keywork)
         {
             var messages = await dbContext.Messages
                                           .Include(c => c.User)

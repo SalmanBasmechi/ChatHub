@@ -29,9 +29,12 @@ namespace ChatHub.Hubs
                 Text = text
             }).Entity;
 
-            await dbContext.SaveChangesAsync();
+            int result = await dbContext.SaveChangesAsync();
 
-            await Clients.All.SendAsync("OnReceivedMessage", Context.User.GetName(), message);
+            if (result > 0)
+            {
+                await Clients.All.SendAsync("OnReceivedMessage", Context.User.GetName(), message);
+            }            
         }
 
         public async Task CreateMessageRoom(string name)
@@ -42,7 +45,12 @@ namespace ChatHub.Hubs
                 SubmitDateTime = DateTime.Now
             });
 
-            await Clients.All.SendAsync("OnMessageRoomCreate", messageRoom);
+            int result = await dbContext.SaveChangesAsync();
+
+            if(result > 0)
+            {
+                await Clients.All.SendAsync("OnMessageRoomCreate", messageRoom);
+            }
         }
     }
 }

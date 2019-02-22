@@ -6,6 +6,6 @@ namespace ChatHub.Models
     public abstract class BaseEntity
     {
         [Key]
-        public virtual Guid Id { get; set; } = Guid.NewGuid();
+        public virtual Guid Id { get; set; }
     }
 }

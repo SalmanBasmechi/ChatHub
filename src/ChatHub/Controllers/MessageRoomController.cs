@@ -32,8 +32,8 @@ namespace ChatHub.Controllers
             return new JsonResult(messageRooms);
         }
 
-        [HttpPost]
-        public async Task<JsonResult> Search([FromBody] string keywork)
+        [Route("{keyword}")]
+        public async Task<JsonResult> Search(string keywork)
         {
             var messageRooms = await dbContext.MessageRooms
                                               .Where(c => c.Name.Contains(keywork, StringComparison.OrdinalIgnoreCase))

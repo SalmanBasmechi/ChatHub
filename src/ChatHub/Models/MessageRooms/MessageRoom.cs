@@ -11,7 +11,7 @@ namespace ChatHub.Models.MessageRooms
         [MaxLength(50)]
         public string Name { get; set; }
 
-        public DateTime SubmitDateTime { get; set; } = DateTime.Now;
+        public DateTime SubmitDateTime { get; set; }
 
         [InverseProperty("MessageRoom")]
         public virtual ICollection<Message> Messages { get; set; }

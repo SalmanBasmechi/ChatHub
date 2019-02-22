@@ -7,7 +7,7 @@ namespace ChatHub.Infrastructure
     {
         public static void AddDataService(this IServiceCollection services)
         {
-            services.AddTransient<ChatHubEntities, ChatHubEntities>();
+            services.AddDbContext<ChatHubEntities>(ServiceLifetime.Scoped);
         }
     }
 }
