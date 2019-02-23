@@ -30,7 +30,7 @@ namespace ChatHub.Controllers
 
             User user = new User()
             {
-                Mobile = value.Mobile,
+                Mobile = $"+98{value.Mobile}",
                 Name = value.Name
             };
 
@@ -50,7 +50,7 @@ namespace ChatHub.Controllers
         [HttpPost, AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] string mobile)
         {
-            User user = await dbContext.Users.FirstOrDefaultAsync(c => c.Mobile == mobile);
+            User user = await dbContext.Users.FirstOrDefaultAsync(c => c.Mobile == $"+98{mobile}");
 
             if (user == null)
             {

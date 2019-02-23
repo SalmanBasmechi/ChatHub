@@ -15,7 +15,7 @@
             <input class="form-control box-shadow" id="name" hidden style="margin-top:20px; width:400px;" type="text" placeholder="Enter your name..." />
         </div>
         <div>
-            <button id="login" style="margin-top:20px;width:400px;" type="submit" class="btn btn-primary">Login</button>
+            <button id="login" style="margin-top:20px;width:400px;" type="submit" class="btn btn-success">Login</button>
         </div>
     </div>
 </div>
@@ -33,7 +33,7 @@
                 alert("Enter input please");
                 return;
             }
-            loginMethod();
+            loginMethod(this);
         });
 
         function mobileIsNotValid() {
@@ -44,8 +44,8 @@
             return !$("#name").val() | !$("#mobile").val();
         }
 
-        function login() {
-            $(this).prop("disabled", true);
+        function login(sender) {
+            $(sender).prop("disabled", true);
             $.ajax({
                 url: "api/user/login",
                 method: "post",
@@ -61,6 +61,7 @@
                             validationMethod = modelIsNotValid;
                             document.getElementById("name").hidden = false;
                             document.getElementById("name").focus();
+                            document.getElementById("login").disabled = false;
                             document.getElementById("login").textContent = "Continue...";
                             break;
                         }
@@ -73,8 +74,8 @@
             });
         }
 
-        function createAndLogin() {
-            $(this).prop("disabled", true);
+        function createAndLogin(sender) {
+            $(sender).prop("disabled", true);
             $.ajax({
                 url: "api/user/create",
                 method: "post",

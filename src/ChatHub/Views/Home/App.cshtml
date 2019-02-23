@@ -1,4 +1,385 @@
 ﻿
 @{
     ViewBag.Title = "ChatHub";
+    Layout = null;
 }
+<!DOCTYPE html>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>*@
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!--لینک دکمه-->
+@*<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">*@
+@*<link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css">*@
+<link rel="stylesheet" href="~/css/site.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
+@*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">*@
+
+<html>
+<head>
+    <title>Messenger</title>
+    <style>
+        .app-container {
+            max-width: 1170px;
+            margin: auto;
+            padding-top: 6%;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        .inbox_people {
+            background: #f7f4fa none repeat scroll 0 0;
+            float: left;
+            overflow: hidden;
+            width: 40%;
+            border-right: 1px solid #c4c4c4;
+        }
+
+        .inbox_msg {
+            border: 1px solid #c4c4c4;
+            clear: both;
+            overflow: hidden;
+        }
+
+        .top_spac {
+            margin: 20px 0 0;
+        }
+
+
+        .recent_heading {
+            float: left;
+            width: 40%;
+        }
+
+        .srch_bar {
+            display: inline-block;
+            text-align: right;
+            width: 90%;
+            float: left;
+        }
+
+        .headind_srch {
+            padding: 10px 29px 10px 20px;
+            overflow: hidden;
+            border-bottom: 1px solid #c4c4c4;
+        }
+
+        .recent_heading h4 {
+            color: #05728f;
+            font-size: 21px;
+            margin: auto;
+        }
+
+        .srch_bar input {
+            border: 1px solid #cdcdcd;
+            border-width: 0 0 1px 0;
+            width: 90%;
+            padding: 2px 0 4px 6px;
+            background: none;
+        }
+
+        .srch_bar .input-group-addon button {
+            background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+            border: medium none;
+            padding: 0;
+            color: #707070;
+            font-size: 18px;
+        }
+
+        .srch_bar .input-group-addon {
+            margin: 0 0 0 -27px;
+        }
+
+        .chat_ib h5 {
+            font-size: 15px;
+            color: #464646;
+            margin: 0 0 8px 0;
+        }
+
+            .chat_ib h5 span {
+                font-size: 13px;
+                float: right;
+            }
+
+        .chat_ib p {
+            font-size: 14px;
+            color: #989898;
+            margin: auto
+        }
+
+        .chat_img {
+            float: left;
+            width: 11%;
+        }
+
+        .chat_ib {
+            float: left;
+            padding: 0 0 0 15px;
+            width: 88%;
+        }
+
+        .chat_people {
+            overflow: hidden;
+            clear: both;
+        }
+
+        .chat_list {
+            border-bottom: 1px solid #c4c4c4;
+            margin: 0;
+            padding: 18px 16px 10px;
+        }
+
+        .inbox_chat {
+            height: 650px;
+            overflow: auto;
+        }
+
+        .active_chat {
+            background: #ebebeb;
+        }
+
+        .incoming_msg_img {
+            display: inline-block;
+            width: 6%;
+        }
+
+        .received_msg {
+            display: inline-block;
+            padding: 0 0 0 10px;
+            vertical-align: top;
+            width: 92%;
+        }
+
+        .received_withd_msg p {
+            background: #ebebeb none repeat scroll 0 0;
+            border-radius: 3px;
+            color: #646464;
+            font-size: 14px;
+            margin: 0;
+            padding: 5px 10px 5px 12px;
+            width: 100%;
+        }
+
+        .time_date {
+            color: #747474;
+            display: block;
+            font-size: 12px;
+            margin: 8px 0 0;
+        }
+
+        .received_withd_msg {
+            width: 57%;
+        }
+
+        .mesgs {
+            float: left;
+            padding: 30px 15px 0 25px;
+            width: 60%;
+        }
+
+        .sent_msg p {
+            background: #DEDBD0 none repeat scroll 0 0;
+            border-radius: 3px;
+            font-size: 14px;
+            margin: 0;
+            padding: 5px 10px 5px 12px;
+            width: 100%;
+        }
+
+        .outgoing_msg {
+            overflow: hidden;
+            margin: 26px 0 26px;
+        }
+
+        .sent_msg {
+            float: right;
+            width: 46%;
+        }
+
+        .input_msg_write input {
+            background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+            border: medium none;
+            color: #4c4c4c;
+            font-size: 15px;
+            min-height: 48px;
+            width: 100%;
+        }
+
+        .type_msg {
+            border-top: 1px solid #c4c4c4;
+            position: relative;
+        }
+
+        .msg_send_btn {
+            background: #05728f;
+            border: medium none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 17px;
+            height: 33px;
+            position: absolute;
+            right: 0;
+            top: 11px;
+            width: 33px;
+        }
+
+        .messaging {
+            padding: 0 0 50px 0;
+        }
+
+        .msg_history {
+            height: 516px;
+            overflow-y: auto;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .button {
+            display: inline-block;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            padding: 0.8em 1.4em;
+            padding-right: 4.7em;
+            background: #009ED8;
+            border: none;
+            color: white;
+            transition: 0.2s;
+            margin-left: 5%;
+            width: 90%;
+        }
+
+            .button:before,
+            .button:after {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                padding-top: inherit;
+                padding-bottom: inherit;
+                width: 2.8em;
+                content: "\00a0";
+                font-family: 'FontAwesome', sans-serif;
+                font-size: 1.2em;
+                text-align: center;
+                transition: 0.2s;
+                transform-origin: 50% 60%;
+            }
+
+            .button:before {
+                background: rgba(0, 0, 0, 0.1);
+            }
+
+            .button:hover {
+                background: #0079a5;
+            }
+
+            .button:active,
+            .button:focus {
+                background: #002e3f;
+                outline: none;
+            }
+
+        .button {
+            min-width: 15em;
+        }
+
+        .sing-in {
+            background: #009ED8;
+        }
+
+        .sign-in:hover {
+            background: #0097CF;
+        }
+
+        .sign-in:active,
+        .sign-in:focus {
+            background: #0090C4;
+        }
+
+        .sign-in:after {
+            /*content: "\f08b";*/
+            content: "\f090";
+        }
+
+        .sign-in:hover:after {
+            -webkit-animation: bounceright 0.3s alternate ease infinite;
+            animation: bounceright 0.3s alternate ease infinite;
+        }
+
+        * {
+            outline: none;
+        }
+
+        .btn-noneoutline {
+            outline: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="messaging">
+            <div class="inbox_msg" style="box-shadow: 0px 0px 10px 5px #ECE9E3;">
+                <div class="inbox_people">
+                    <div class="headind_srch">
+                        <div class="srch_bar">
+                            <div class="stylish-input-group">
+                                <input type="text" class="search-bar" placeholder="Search">
+                                <span class="input-group-addon">
+                                    <button type="button" class="btn-noneoutline"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="messageRooms" class="inbox_chat">
+                        @*Chat Rooms*@
+                    </div>
+                </div>
+
+                <!--صفحه سمت راست-->
+                <div class="mesgs" style="padding-top:0px;">
+
+                    <div class="headind_srch">
+                        <div class="srch_bar" style=" float:left">
+                            <div class="stylish-input-group" style="padding-left:0px">
+                                <input type="text" class="search-bar" placeholder="Search">
+                                <span class="input-group-addon">
+                                    <button type="button" class="btn-noneoutline"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="messages" class="msg_history" style="margin-top:30px; height:550px;">
+                        @*Messages*@
+                    </div>
+
+                    <div class="type_msg">
+                        <input type="text" class="write_msg" style="border: none; width: 85%; margin-left:10px;" placeholder="Type a message" />
+                        <button class="btn btn-success" style="margin-top: 10px; margin-left: 15px;" type="button">Send</button>
+                    </div>
+
+                </div>
+                <!--اتمام سمت راست-->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        for (i = 0; i < 10; i++) {
+            $("#messageRooms").append('<br /><button class="button sign-in">Home</button><br />');
+            $("#messages").append('<div class="incoming_msg"><div class= "received_msg" style="margin-left: 5px;"><div class="received_withd_msg"><label style="color:#6d6185;">Salman:</label><p>Test which is a new approach to have all solutions</p><span class="time_date"> 11:01 AM    |    June 9</span></div><br /></div></div>');
+            $("#messages").append('<div class= "outgoing_msg" style="margin-right: 5px;"><div class="sent_msg"><p>Test which is a new approach to have all solutions</p><span class="time_date"> 11:01 AM    |    June 9</span><br /></div></div>');
+        }
+    </script>
+
+</body>
+</html>
