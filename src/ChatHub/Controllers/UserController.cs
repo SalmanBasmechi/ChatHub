@@ -50,7 +50,7 @@ namespace ChatHub.Controllers
         [HttpPost, AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] string mobile)
         {
-            User user = await dbContext.Users.SingleOrDefaultAsync(c => c.Mobile == mobile);
+            User user = await dbContext.Users.FirstOrDefaultAsync(c => c.Mobile == mobile);
 
             if (user == null)
             {
