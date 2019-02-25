@@ -47,12 +47,12 @@
         function login(sender) {
             $(sender).prop("disabled", true);
             $.ajax({
-                url: "api/user/login",
+                url: "/api/user/login",
                 method: "post",
                 contentType: 'application/json',
                 data: $("#mobile").val(),
                 success: function () {
-                    window.location.replace("home/app");
+                    window.location.replace("/home/app");
                 },
                 error: function (ex) {
                     switch (ex.status) {
@@ -77,7 +77,7 @@
         function createAndLogin(sender) {
             $(sender).prop("disabled", true);
             $.ajax({
-                url: "api/user/create",
+                url: "/api/user/create",
                 method: "post",
                 contentType: 'application/json',
                 data: JSON.stringify({
@@ -85,7 +85,7 @@
                     name: $("#name").val()
                 }),
                 success: function () {
-                    window.location.replace("home/app");
+                    window.location.replace("/home/app");
                 },
                 error: function (ex) {
                     switch (ex.status) {

@@ -17,7 +17,7 @@ namespace ChatHub.Controllers
         {
             this.dbContext = dbContext;
         }
-
+        
         public async Task<JsonResult> GetAll()
         {
             var messageRooms = await dbContext.MessageRooms
@@ -27,7 +27,7 @@ namespace ChatHub.Controllers
                                                   c.Name,
                                                   c.SubmitDateTime
                                               })
-                                              .OrderByDescending(c => c.Name)
+                                              .OrderBy(c => c.Name)
                                               .ToListAsync();
 
             return new JsonResult(messageRooms);
@@ -44,7 +44,7 @@ namespace ChatHub.Controllers
                                                   c.Name,
                                                   c.SubmitDateTime
                                               })
-                                              .OrderByDescending(c => c.Name)
+                                              .OrderBy(c => c.Name)
                                               .ToListAsync();
 
             return new JsonResult(messageRooms);

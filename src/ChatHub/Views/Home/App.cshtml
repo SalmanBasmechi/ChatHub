@@ -1,479 +1,265 @@
-﻿
+﻿@using ChatHub.Infrastructure;
+
 @{
     ViewBag.Title = "ChatHub";
-    Layout = null;
 }
-<!DOCTYPE html>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="~/css/site.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
-
-<script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
-
-
-<html>
-<head>
-    <title>Messenger</title>
-    <style>
-        .app-container {
-            max-width: 1170px;
-            margin: auto;
-            padding-top: 6%;
-        }
-
-        img {
-            max-width: 100%;
-        }
-
-        .inbox-room {
-            background: #f7f4fa none repeat scroll 0 0;
-            float: left;
-            overflow: hidden;
-            width: 40%;
-            border-right: 1px solid #c4c4c4;
-        }
-
-        .inbox-message {
-            border: 1px solid #c4c4c4;
-            clear: both;
-            overflow: hidden;
-            box-shadow: 0px 0px 10px 5px #ECE9E3;
-        }
-
-        .top_spac {
-            margin: 20px 0 0;
-        }
-
-
-        .recent_heading {
-            float: left;
-            width: 40%;
-        }
-
-        .search-div {
-            display: inline-block;
-            text-align: right;
-            width: 90%;
-            float: left;
-        }
-
-        .heading-search {
-            padding: 10px 29px 10px 20px;
-            overflow: hidden;
-            border-bottom: 1px solid #c4c4c4;
-        }
-
-        .recent_heading h4 {
-            color: #05728f;
-            font-size: 21px;
-            margin: auto;
-        }
-
-        .search-div input {
-            border: 1px solid #cdcdcd;
-            border-width: 0 0 1px 0;
-            width: 90%;
-            padding: 2px 0 4px 6px;
-            background: none;
-        }
-
-        .search-div .input-group-addon button {
-            background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-            border: medium none;
-            padding: 0;
-            color: #707070;
-            font-size: 18px;
-        }
-
-        .search-div .input-group-addon {
-            margin: 0 0 0 -27px;
-        }
-
-        .chat_ib h5 {
-            font-size: 15px;
-            color: #464646;
-            margin: 0 0 8px 0;
-        }
-
-            .chat_ib h5 span {
-                font-size: 13px;
-                float: right;
-            }
-
-        .chat_ib p {
-            font-size: 14px;
-            color: #989898;
-            margin: auto
-        }
-
-        .chat_img {
-            float: left;
-            width: 11%;
-        }
-
-        .chat_ib {
-            float: left;
-            padding: 0 0 0 15px;
-            width: 88%;
-        }
-
-        .chat_people {
-            overflow: hidden;
-            clear: both;
-        }
-
-        .chat_list {
-            border-bottom: 1px solid #c4c4c4;
-            margin: 0;
-            padding: 18px 16px 10px;
-        }
-
-        .inbox-chat {
-            height: 650px;
-            overflow: auto;
-        }
-
-        .active_chat {
-            background: #ebebeb;
-        }
-
-        .incoming_msg_img {
-            display: inline-block;
-            width: 6%;
-        }
-
-        .received_msg {
-            display: inline-block;
-            padding: 0 0 0 10px;
-            vertical-align: top;
-            width: 92%;
-        }
-
-        .received_withd_msg p {
-            background: #ebebeb none repeat scroll 0 0;
-            border-radius: 3px;
-            color: #646464;
-            font-size: 14px;
-            margin: 0;
-            padding: 5px 10px 5px 12px;
-            width: 100%;
-        }
-
-        .time_date {
-            color: #747474;
-            display: block;
-            font-size: 12px;
-            margin: 8px 0 0;
-        }
-
-        .received_withd_msg {
-            width: 57%;
-        }
-
-        .mesgs {
-            float: left;
-            padding: 30px 15px 0 25px;
-            width: 60%;
-        }
-
-        .sent_msg p {
-            background: #DEDBD0 none repeat scroll 0 0;
-            border-radius: 3px;
-            font-size: 14px;
-            margin: 0;
-            padding: 5px 10px 5px 12px;
-            width: 100%;
-        }
-
-        .outgoing_msg {
-            overflow: hidden;
-            margin: 26px 0 26px;
-        }
-
-        .sent_msg {
-            float: right;
-            width: 46%;
-        }
-
-        .input_msg_write input {
-            background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-            border: medium none;
-            color: #4c4c4c;
-            font-size: 15px;
-            min-height: 48px;
-            width: 100%;
-        }
-
-        .type-message {
-            border-top: 1px solid #c4c4c4;
-            position: relative;
-        }
-
-        .msg_send_btn {
-            background: #05728f;
-            border: medium none;
-            color: #fff;
-            cursor: pointer;
-            font-size: 17px;
-            height: 33px;
-            position: absolute;
-            right: 0;
-            top: 11px;
-            width: 33px;
-        }
-
-        .messaging {
-            padding: 0 0 50px 0;
-        }
-
-        .message-history {
-            height: 516px;
-            overflow-y: auto;
-            margin-top: 30px;
-            height: 550px;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        .button {
-            display: inline-block;
-            -webkit-font-smoothing: antialiased;
-            position: relative;
-            padding: 0.8em 1.4em;
-            padding-right: 4.7em;
-            background: #009ED8;
-            border: none;
-            color: white;
-            transition: 0.2s;
-            margin-left: 5%;
-            width: 90%;
-        }
-
-            .button:before,
-            .button:after {
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                right: 0;
-                padding-top: inherit;
-                padding-bottom: inherit;
-                width: 2.8em;
-                content: "\00a0";
-                font-family: 'FontAwesome', sans-serif;
-                font-size: 1.2em;
-                text-align: center;
-                transition: 0.2s;
-                transform-origin: 50% 60%;
-            }
-
-            .button:before {
-                background: rgba(0, 0, 0, 0.1);
-            }
-
-            .button:hover {
-                background: #0079a5;
-            }
-
-            .button:active,
-            .button:focus {
-                background: #002e3f;
-                outline: none;
-            }
-
-        .button {
-            min-width: 15em;
-        }
-
-        .sing-in {
-            background: #009ED8;
-        }
-
-        .sign-in:hover {
-            background: #0097CF;
-        }
-
-        .sign-in:active,
-        .sign-in:focus {
-            background: #0090C4;
-            transform: scale(0.99);
-        }
-
-        .sign-in:after {
-            /*content: "\f08b";*/
-            content: "\f090";
-        }
-
-        .sign-in:hover:after {
-            -webkit-animation: bounceright 0.3s alternate ease infinite;
-            animation: bounceright 0.3s alternate ease infinite;
-        }
-
-        * {
-            outline: none;
-        }
-
-        .btn-noneoutline {
-            outline: none !important;
-        }
-
-
-        /*plus*/
-
-        .plus {
-            display: inline-block;
-            border: none;
-            padding: 1rem 2rem;
-            margin: 0;
-            text-decoration: none;
-            background: #ebebeb;
-            color: #989898;
-            font-family: sans-serif;
-            font-size: 1rem;
-            cursor: pointer;
-            text-align: center;
-            transition: background 250ms ease-in-out, transform 150ms ease;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            margin-left: 5%;
-            width: 90%;
-            padding: 0.8em 1.4em;
-        }
-
-            .plus:hover,
-            .plus:focus {
-                background: #cdcdcd;
-            }
-
-            .plus:focus {
-                outline: 1px solid #cdcdcd;
-                outline-offset: -4px;
-            }
-
-            .plus:active {
-                transform: scale(0.99);
-            }
-
-        .right-page {
-            padding-top: 0px;
-        }
-
-        .right-search {
-            padding-left: 0px
-        }
-
-        .write-message {
-            border: none;
-            width: 85%;
-            margin-left: 10px;
-        }
-
-        .send-message {
-            margin-top: 10px;
-            margin-left: 15px;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" style="margin-top:15%">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ModalLabel">Create room</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="recipient-name" placeholder="Enter room title...">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-success">Create</button>
-                </div>
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" style="margin-top:15%">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Create Message Room</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input id="txtMessageRoom" type="text" class="form-control" placeholder="Enter room title...">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button id="btnCreateRoom" type="button" class="btn btn-success" data-dismiss="modal" disabled>Create</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="app-container">
-        <div class="messaging">
-            <div class="inbox-message">
-                <div class="inbox-room">
-                    <div class="heading-search">
-                        <div class="search-div" style="width: 95%;">
-                            <div style="float: right;margin-top: 2px;">
-                                <i class="fa fa-plus" style="margin-left: 25px;margin-top: 7px;color: #707070;cursor:pointer;display:inline;" data-toggle="modal" data-target="#Modal" aria-hidden="true"></i>
-                            </div>
-                            <div class="stylish-input-group" style="width:90%">
-                                <input type="text" class="search-bar" placeholder="Search">
-                                <span class="input-group-addon">
-                                    <button type="button" class="btn-noneoutline"> <i class="fa fa-search" aria-hidden="true"></i> </button>
-                                </span>
-                            </div>
+<div class="app-container">
+    <div class="messaging">
+        <div class="inbox-message">
+            <div class="inbox-room">
+                <div class="heading-search" style="position: relative; top: -25px;">
+                    <div style="float: right;margin-top: 2px; position: relative;  bottom: -25px;">
+                        <i class="fa fa-plus" style="margin-left: 25px;margin-top: 7px;color: #707070;cursor:pointer;display:inline;" data-toggle="modal" data-target="#Modal" aria-hidden="true"></i>
+                    </div>
+                    <div class="search-div" style="width: 95%;">
+
+                        <div class="stylish-input-group" style="width:90%">
+                            <input type="text" class="search-bar" placeholder="Search">
+                            <span class="input-group-addon">
+                                <button type="button" class="btn-noneoutline"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                            </span>
                         </div>
                     </div>
-                    <div id="messageRooms" class="inbox-chat">
-                        @*Chat Rooms*@
+                </div>
+                <div id="messageRooms" class="inbox-chat">
+                    @*Chat Rooms*@
+                </div>
+            </div>
+
+            <div class="mesgs right-page">
+
+                <div class="heading-search">
+                    <div class="search-div">
+                        <div class="stylish-input-group right-search">
+                            <input type="text" class="search-bar" placeholder="Search">
+                            <span class="input-group-addon">
+                                <button type="button" class="btn-noneoutline"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
-                <!--صفحه سمت راست-->
-                <div class="mesgs right-page">
+                <div id="messages" class="message-history">
+                    @*Messages*@
+                </div>
 
-                    <div class="heading-search">
-                        <div class="search-div">
-                            <div class="stylish-input-group right-search">
-                                <input type="text" class="search-bar" placeholder="Search">
-                                <span class="input-group-addon">
-                                    <button type="button" class="btn-noneoutline"> <i class="fa fa-search" aria-hidden="true"></i> </button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="messages" class="message-history">
-                        @*Messages*@
-                    </div>
-
-                    <div class="type-message">
-                        <input type="text" class="write-message" placeholder="Type a message" />
-                        <button class="btn btn-success send-message" type="button">Send</button>
-                    </div>
+                <div class="type-message" style="position: relative; bottom: -20px;">
+                    <div style="position: relative; top: 10px;"><input id="txtMessage" type="text" class="write-message" placeholder="Type a message" /></div>
+                    <div style="float: right; position: relative; top: -25px;"><button id="btnSendMessage" class="btn btn-success send-message" type="button" disabled>Send</button></div>
 
                 </div>
-                <!--اتمام سمت راست-->
+
             </div>
         </div>
     </div>
 
     <script>
+    var yourId = '@User.GetId()';
+    var connection = null;
+    var currentMessageRoomId = null;
 
-        var connection = new signalR.HubConnectionBuilder().withUrl("/Hubs/Chat").build();
+    window.onload = function () {
+        connection = new signalR.HubConnectionBuilder().withUrl("/Hubs/Chat").build();
 
         connection.start().then(function () {
+            getAllMessageRooms();
+
+            connection.on("OnJoinMessageRoom", function (messageRoomId) {
+                currentMessageRoomId = messageRoomId;
+                setSignOutCss(messageRoomId);
+                clearAllMessage();
+                getAllMessages(messageRoomId);
+                if ($("#txtMessage").val()) {
+                    $("#btnSendMessage").prop("disabled", false);
+                }
+            });
+
+            connection.on("OnLeaveMessageRoom", function () {
+                currentMessageRoomId = null;
+                clearAllMessage();
+                setSignInCss(messageRoomId);
+            });
+
+            connection.on("OnCreateMessageRoom", function (messageRoom) {
+                appendMessageRoom(messageRoom.id, messageRoom.name);
+                goLastMessageRoom(500);
+            });
+
+            connection.on("OnReceiveMessage", function (senderName, message) {
+                if (message.userId == yourId) {
+                    appendOutgoingMessage(message.text, message.submitDateTime);
+                }
+                else {
+                    appendIncomeMessage(senderName, message.text, message.submitDateTime);
+                }
+                goLastMessage(500);
+            });
+
+            $("#btnCreateRoom").click(function () {
+                var text = $("#txtMessageRoom");
+                connection.send("CreateMessageRoom", text.val());
+                text.val("");
+            });
+
+            $("#btnSendMessage").click(function () {
+                var text = $("#txtMessage");
+                if (text.val() && currentMessageRoomId != null) {
+                    connection.send("SendMessage", text.val(), currentMessageRoomId);
+                    text.val("");
+                    $("#btnSendMessage").prop("disabled", true);
+                }
+            });
+
+            $(document).on("click", ".sign-in", function () {
+                var messageRoomId = $(this).attr("id");
+
+                if (messageRoomId == currentMessageRoomId) {
+                    connection.send("LeaveMessageRoom", messageRoomId);
+                }
+                else {
+                    connection.send("JoinMessageRoom", messageRoomId);
+                }
+            });
 
         }).catch(function (err) {
             return console.error(err.toString());
         });
 
-        for (i = 0; i < 10; i++) {
-            $("#messageRooms").append('<br /><button class="button sign-in">Home</button><br />');
-            $("#messages").append('<div class="incoming_msg"><div class= "received_msg" style="margin-left: 5px;"><div class="received_withd_msg"><label style="color:#6d6185;">Salman:</label><p>Test which is a new approach to have all solutions</p><span class="time_date"> 11:01 AM    |    June 9</span></div><br /></div></div>');
-            $("#messages").append('<div class= "outgoing_msg" style="margin-right: 5px;"><div class="sent_msg"><p>Test which is a new approach to have all solutions</p><span class="time_date"> 11:01 AM    |    June 9</span><br /></div></div>');
+        function getAllMessages(messageRoomId) {
+            $.ajax({
+                url: "/api/message/getAll/" + messageRoomId,
+                method: "get",
+                contentType: 'application/json',
+                success: function (response) {
+                    for (i = 0; i < response.length; i++) {
+                        if (response[i].userId == yourId) {
+                            appendOutgoingMessage(response[i].text, response[i].submitDateTime);
+                        }
+                        else {
+                            appendIncomeMessage(response[i].name, response[i].text, response[i].submitDateTime);
+                        }
+                    }
+                    goLastMessage();
+                },
+                error: function () {
+                    alert('an error occured!');
+                }
+            });
         }
-    </script>
 
-</body>
-</html>
+        function getAllMessageRooms() {
+            $.ajax({
+                url: "/api/messageroom/getall",
+                method: "get",
+                contentType: 'application/json',
+                success: function (response) {
+                    for (i = 0; i < response.length; i++) {
+                        appendMessageRoom(response[i].id, response[i].name);
+                    }
+                    goLastMessageRoom();
+                },
+                error: function () {
+                    alert('an error occured!');
+                }
+            });
+        }
+
+        function appendMessageRoom(id, name) {
+            $("#messageRooms").append('<br /><button id="' + id + '" class="button sign-in">' + name + '</button><br />');
+        }
+
+        function appendIncomeMessage(name, text, date) {
+            date = new Date(Date.parse(date));
+            $("#messages").append('<div class="incoming-msg"><div class= "received-msg" style="margin-left: 5px;"><div class="received-withd-msg"><label style="color:#6d6185;">' + name + ':</label><p>' + text + '</p><span class="time-date">' + formatDate(date) + '</span></div><br /></div></div>');
+        }
+
+        function appendOutgoingMessage(text, date) {
+            date = new Date(Date.parse(date));
+            $("#messages").append('<div class="outgoing-msg" style="margin-right: 5px;"><div class="sent-msg"><p>' + text + '</p><span class="time-date">' + formatDate(date) + '</span><br /></div></div>');
+        }
+
+        function clearAllMessage() {
+            $("#messages").empty();
+        }
+
+        function setSignInCss(messageRoomId) {
+            $("#" + messageRoomId).css({ "content":"\f090", "transform":"scale(0.99)" });
+        }
+
+        function setSignOutCss(messageRoomId) {
+            $("#" + messageRoomId).css({ "content": "\f08b", "transform": "scale(0.99)" });
+        }
+
+        $("#txtMessageRoom").on("input", function () {
+            if ($("#txtMessageRoom").val().trim()) {
+                $("#btnCreateRoom").prop("disabled", false);
+            }
+            else {
+                $("#btnCreateRoom".prop("disabled", true));
+            }
+        });
+
+        $("#txtMessageRoom").on("keyup", function () {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                $("#btnCreateRoom").click();
+            }
+        });
+
+        $("#txtMessage").on("input", function () {
+            if ($("#txtMessage").val().trim() && currentMessageRoomId != null) {
+                $("#btnSendMessage").prop("disabled", false);
+            }
+            else {
+                $("#btnSendMessage").prop("disabled", true);
+            }
+        });
+
+        $("#txtMessage").on("keyup", function () {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                $("#btnSendMessage").click();
+            }
+        });
+
+        function formatDate(date) {
+            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+            return days[date.getDay()] + " " + date.getDate() + " " + months[date.getMonth()] + " " + date.getHours() + ":" + date.getMinutes();
+        }
+
+        function goLastMessage(duration = 0) {
+            $("#messages").animate({ scrollTop: $('#messages').prop("scrollHeight") }, duration);
+        }
+
+        function goLastMessageRoom(duration = 0) {
+            $("#messageRooms").animate({ scrollTop: $('#messageRooms').prop("scrollHeight") }, duration);
+        }
+    }
+    </script>
