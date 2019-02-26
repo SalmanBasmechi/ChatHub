@@ -24,8 +24,7 @@ namespace ChatHub.Controllers
                                               .Select(c => new
                                               {
                                                   c.Id,
-                                                  c.Name,
-                                                  c.SubmitDateTime
+                                                  c.Name
                                               })
                                               .OrderBy(c => c.Name)
                                               .ToListAsync();
@@ -34,15 +33,14 @@ namespace ChatHub.Controllers
         }
 
         [Route("{keyword}")]
-        public async Task<JsonResult> Search(string keywork)
+        public async Task<JsonResult> Search(string keyword)
         {
             var messageRooms = await dbContext.MessageRooms
-                                              .Where(c => c.Name.Contains(keywork, StringComparison.OrdinalIgnoreCase))
+                                              .Where(c => c.Name.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                                               .Select(c => new
                                               {
                                                   c.Id,
-                                                  c.Name,
-                                                  c.SubmitDateTime
+                                                  c.Name
                                               })
                                               .OrderBy(c => c.Name)
                                               .ToListAsync();

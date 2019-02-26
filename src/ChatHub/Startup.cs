@@ -19,7 +19,6 @@ namespace ChatHub
                     .AddCookie(option =>
                     {
                         option.LoginPath = "/Home/Index";
-                        option.LogoutPath = "/Home/Index";
                     });
         }
 

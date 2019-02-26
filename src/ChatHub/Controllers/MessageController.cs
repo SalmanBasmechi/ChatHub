@@ -65,16 +65,19 @@ namespace ChatHub.Controllers
         {
             var messages = await dbContext.Messages
                                           .Include(c => c.User)
+                                          .Include(c => c.MessageRoom)
                                           .Where(c => c.Text.Contains(keywork, StringComparison.OrdinalIgnoreCase))
                                           .Select(c => new
                                           {
-                                              c.MessageRoomId,
                                               c.UserId,
-                                              c.User.Name,
+                                              c.MessageRoomId,
+                                              UserName = c.User.Name,
+                                              MessageRoomName = c.MessageRoom.Name,
                                               c.SubmitDateTime,
                                               c.Text
                                           })
                                           .OrderBy(c => c.MessageRoomId)
+                                          .OrderBy(c => c.SubmitDateTime)
                                           .ToListAsync();
 
             return new JsonResult(messages);

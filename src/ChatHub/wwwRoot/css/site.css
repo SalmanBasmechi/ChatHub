@@ -264,6 +264,7 @@ img {
 .outgoing-msg {
     overflow: hidden;
     margin: 26px 0 26px;
+    margin-right: 5px;
 }
 
 .sent-msg {
@@ -358,10 +359,6 @@ img {
         outline: none;
     }
 
-.button {
-    min-width: 15em;
-}
-
 .sing-in {
     background: #009ED8;    
 }
@@ -394,9 +391,6 @@ img {
 .btn-noneoutline {
     outline: none !important;
 }
-
-
-/*plus*/
 
 .plus {
     display: inline-block;

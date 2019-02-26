@@ -19,20 +19,16 @@ namespace ChatHub.Controllers
         }
 
         [HttpPost, ValidateModel, AllowAnonymous]
-        public async Task<IActionResult> Create([FromBody] User value)
+        public async Task<IActionResult> Create([FromBody] User user)
         {
-            bool exist = await dbContext.Users.AnyAsync(c => c.Mobile == value.Mobile);
+            user.Mobile = $"+98{user.Mobile}";
+
+            bool exist = await dbContext.Users.AnyAsync(c => c.Mobile == user.Mobile);
 
             if (exist)
             {
                 return BadRequest("An user is available with this mobile number");
             }
-
-            User user = new User()
-            {
-                Mobile = $"+98{value.Mobile}",
-                Name = value.Name
-            };
 
             dbContext.Users.Add(user);
 

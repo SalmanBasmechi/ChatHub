@@ -9,13 +9,13 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-defult">+98</span>
             </div>
-            <input class="form-control box-shadow" id="mobile" type="text" aria-label="defult" aria-describedby="inputGroup-sizing-sm" placeholder="Enter your mobile number...">
+            <input class="form-control box-shadow" id="txtMobile" type="text" aria-label="defult" aria-describedby="inputGroup-sizing-sm" placeholder="Enter your mobile number...">
         </div>
         <div>
-            <input class="form-control box-shadow" id="name" hidden style="margin-top:20px; width:400px;" type="text" placeholder="Enter your name..." />
+            <input class="form-control box-shadow" id="txtName" hidden style="margin-top:20px; width:400px;" type="text" placeholder="Enter your name..." />
         </div>
         <div>
-            <button id="login" style="margin-top:20px;width:400px;" type="submit" class="btn btn-success">Login</button>
+            <button id="btnLogin" style="margin-top:20px;width:400px;" type="submit" class="btn btn-success">Login</button>
         </div>
     </div>
 </div>
@@ -28,7 +28,7 @@
         loginMethod = login;
         validationMethod = mobileIsNotValid;
 
-        $("#login").click(function () {
+        $("#btnLogin").click(function () {
             if (validationMethod()) {
                 alert("Enter input please");
                 return;
@@ -37,32 +37,33 @@
         });
 
         function mobileIsNotValid() {
-            return !$("#mobile").val();
+            return !$("#txtMobile").val();
         }
 
         function modelIsNotValid() {
-            return !$("#name").val() | !$("#mobile").val();
+            return !$("#txtName").val() | !$("#txtMobile").val();
         }
 
         function login(sender) {
             $(sender).prop("disabled", true);
+
             $.ajax({
                 url: "/api/user/login",
                 method: "post",
                 contentType: 'application/json',
-                data: $("#mobile").val(),
+                data: $("#txtMobile").val(),
                 success: function () {
                     window.location.replace("/home/app");
                 },
                 error: function (ex) {
+                    document.getElementById("btnLogin").disabled = false;
                     switch (ex.status) {
                         case 404: {                            
                             loginMethod = createAndLogin;
                             validationMethod = modelIsNotValid;
-                            document.getElementById("name").hidden = false;
-                            document.getElementById("name").focus();
-                            document.getElementById("login").disabled = false;
-                            document.getElementById("login").textContent = "Continue...";
+                            document.getElementById("txtName").hidden = false;
+                            document.getElementById("txtName").focus();                            
+                            document.getElementById("btnLogin").textContent = "Continue...";
                             break;
                         }
                         default: {
@@ -76,13 +77,14 @@
 
         function createAndLogin(sender) {
             $(sender).prop("disabled", true);
+
             $.ajax({
                 url: "/api/user/create",
                 method: "post",
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    mobile: $("#mobile").val(),
-                    name: $("#name").val()
+                    mobile: $("#txtMobile").val(),
+                    name: $("#txtName").val()
                 }),
                 success: function () {
                     window.location.replace("/home/app");
@@ -101,6 +103,13 @@
                 }
             });
         }
+
+        $("#txtName, #txtMobile").on("keyup", function () {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                $("#btnLogin").click();
+            }
+        });
     }
 
 </script>

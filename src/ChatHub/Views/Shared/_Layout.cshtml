@@ -21,12 +21,12 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ChatHub</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <div style="width:100%">
+                <div style="float: left; margin-left: 20%;"><a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ChatHub</a> </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div style="float: left; position: relative; top: 10px;"> <i id="btnExit" class="fa fa-sign-out" aria-hidden="true" title="Sign out" data-toggle="tooltip" style="cursor: pointer; "></i></div>
+                }
             </div>
         </nav>
     </header>
@@ -64,5 +64,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>
