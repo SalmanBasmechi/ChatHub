@@ -4,12 +4,12 @@
     ViewBag.Title = "ChatHub";
 }
 
-<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" style="margin-top:15%">
+<div class="modal fade fade-modal" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ModalLabel">Create message room</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
+                <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -30,18 +30,18 @@
     <div class="messaging">
         <div class="inbox-message">
             <div class="inbox-room">
-                <div class="heading-search" style="position: relative; top: -25px;">
-                    <div id="btnCreateRoomIcon" style="float: right;margin-top: 2px; position: relative;  bottom: -25px;">
-                        <i class="fa fa-plus" style="margin-left: 25px;margin-top: 7px;color: #707070;cursor:pointer;display:inline;" data-toggle="modal" data-target="#Modal" aria-hidden="true"></i>
+                <div class="heading-search left-seach">
+                    <div id="btnCreateRoomIcon" class="left-plus">
+                        <i class="fa fa-plus left-icon-p" data-toggle="modal" data-target="#Modal" aria-hidden="true"></i>
                     </div>
-                    <div id="btnDefaultRoom" style="float: right;margin-top: 2px; position: relative;  bottom: -25px; display:none;">
-                        <i class="fa fa-arrow-left" style="margin-left: 25px;margin-top: 7px;color: #707070;cursor:pointer;display:inline;"></i>
+                    <div id="btnDefaultRoom" class="left-page-arrow">
+                        <i class="fa fa-arrow-left left-arrow-icon"></i>
                     </div>
-                    <div class="search-div" style="width: 95%;">
-                        <div class="stylish-input-group" style="width:90%">
+                    <div class="search-div left-search-width">
+                        <div class="stylish-input-group left-search-width-two">
                             <input id="txtSearchRoom" type="text" class="search-bar" placeholder="Search">
                             <span class="input-group-addon">
-                                <button type="button" class="btn-noneoutline" style="cursor:pointer;"> <i id="btnSearchRoom" class="fa fa-search" aria-hidden="true"></i> </button>
+                                <button type="button" class="btn-noneoutline"> <i id="btnSearchRoom" class="fa fa-search" aria-hidden="true"></i> </button>
                             </span>
                         </div>
                     </div>
@@ -56,9 +56,9 @@
                         <div class="stylish-input-group right-search">
                             <input id="txtSearchMessage" type="text" class="search-bar" placeholder="Search">
                             <span class="input-group-addon">
-                                <button type="button" class="btn-noneoutline" style="cursor:pointer">
+                                <button type="button" class="btn-noneoutline">
                                     <i id="btnSearchMessage" class="fa fa-search" aria-hidden="true"></i>
-                                    <i id="btnDefaultMessage" class="fa fa-arrow-left" aria-hidden="true" style="display:none;"></i>
+                                    <i id="btnDefaultMessage" class="fa fa-arrow-left right-page-arrow" aria-hidden="true"></i>
                                 </button>
                             </span>
                         </div>
@@ -67,9 +67,9 @@
                 <div id="messages" class="message-history">
                     @*Messages*@
                 </div>
-                <div class="type-message" style="position: relative; bottom: -20px;">
-                    <div style="position: relative; top: 10px;"><input id="txtMessage" type="text" class="write-message" placeholder="Type a message" /></div>
-                    <div style="float: right; position: relative; top: -25px;"><button id="btnSendMessage" class="btn btn-success send-message" type="button" disabled>Send</button></div>
+                <div class="type-message">
+                    <div class="text-message"><input id="txtMessage" type="text" class="write-message" placeholder="Type a message" /></div>
+                    <div class="button-send-message"><button id="btnSendMessage" class="btn btn-success send-message" type="button" disabled>Send</button></div>
                 </div>
             </div>
         </div>
@@ -77,306 +77,326 @@
 </div>
 
 <script>
-    var yourId = '@User.GetId()';
-    var connection = null;
-    var currentMessageRoomId = null;
 
-    window.onload = function () {
-        connection = new signalR.HubConnectionBuilder().withUrl("/Hubs/Chat").build();
+var yourId = '@User.GetId()';
+var connection = null;
+var currentMessageRoomId = null;
 
-        connection.start().then(function () {
-            getAllMessageRooms();
+window.onload = function () {
+    connection = new signalR.HubConnectionBuilder().withUrl("/Hubs/Chat").build();
 
-            connection.on("OnJoinMessageRoom", function (messageRoomId) {
-                currentMessageRoomId = messageRoomId;
-                setSignOutCss(messageRoomId);
-                clearAllMessage();
-                getAllMessages(messageRoomId);
-                if ($("#txtMessage").val()) {
-                    $("#btnSendMessage").prop("disabled", false);
-                }
-            });
+    connection.start().then(function () {
+        getAllMessageRooms();
 
-            connection.on("OnLeaveMessageRoom", function () {
-                setSignInCss(currentMessageRoomId);
-                currentMessageRoomId = null;                
-            });
+        connection.on("OnJoinMessageRoom", function (messageRoomId) {
+            currentMessageRoomId = messageRoomId;
 
-            connection.on("OnCreateMessageRoom", function (messageRoom) {
-                appendMessageRoom(messageRoom.id, messageRoom.name);
-                goLastMessageRoom(500);
-            });
+            setSignOutCss(messageRoomId);
 
-            connection.on("OnReceiveMessage", function (senderName, message) {
-                if (message.userId == yourId) {
-                    appendOutgoingMessage(message.text, message.submitDateTime);
-                }
-                else {
-                    appendIncomeMessage(senderName, message.text, message.submitDateTime);
-                }
-                goLastMessage(500);
-            });
+            clearAllMessage();
+            getAllMessages(messageRoomId);
 
-            $("#btnCreateRoom").click(function () {
-                var text = $("#txtMessageRoom");
-                if (text.val()) {
-                    connection.send("CreateMessageRoom", text.val());
-                    text.val("");
-                }
-                $("#Modal").modal("hide");
-            });
-
-            $("#btnSendMessage").click(function () {
-                var text = $("#txtMessage");
-                if (text.val() && currentMessageRoomId != null) {
-                    connection.send("SendMessage", text.val(), currentMessageRoomId);
-                    text.val("");
-                    $("#btnSendMessage").prop("disabled", true);
-                }
-            });
-
-            $(document).on("click", ".sign-in", function () {
-                var messageRoomId = $(this).attr("id");
-
-                if (messageRoomId == currentMessageRoomId) {
-                    clearAllMessage();
-                    connection.send("LeaveMessageRoom", messageRoomId);
-                }
-                else {
-                    if (currentMessageRoomId != null) {
-                        clearAllMessage();
-                        connection.send("LeaveMessageRoom", messageRoomId);
-                    }
-                    connection.send("JoinMessageRoom", messageRoomId);
-                }
-            });
-
-        }).catch(function (err) {
-            return console.error(err.toString());
-        });
-
-        function getAllMessages(messageRoomId) {
-            if (messageRoomId) {
-                $.ajax({
-                    url: "/api/message/getAll/" + messageRoomId,
-                    method: "get",
-                    contentType: 'application/json',
-                    success: function (response) {
-                        for (i = 0; i < response.length; i++) {
-                            if (response[i].userId == yourId) {
-                                appendOutgoingMessage(response[i].text, response[i].submitDateTime);
-                            }
-                            else {
-                                appendIncomeMessage(response[i].name, response[i].text, response[i].submitDateTime);
-                            }
-                        }
-                        goLastMessage();
-                    },
-                    error: function () {
-                        alert('an error occured!');
-                    }
-                });
-            }
-        }
-
-        function getAllMessageRooms() {
-            $.ajax({
-                url: "/api/messageroom/getall",
-                method: "get",
-                contentType: 'application/json',
-                success: function (response) {
-                    for (i = 0; i < response.length; i++) {
-                        appendMessageRoom(response[i].id, response[i].name);
-                    }
-                },
-                error: function () {
-                    alert('an error occured!');
-                }
-            });
-        }
-
-        $("#txtMessageRoom").on("keyup", function () {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                $("#btnCreateRoom").click();
-            }
-        });
-
-        $("#txtMessage").on("input", function () {
-            if ($("#txtMessage").val().trim() && currentMessageRoomId != null) {
+            if ($("#txtMessage").val()) {
                 $("#btnSendMessage").prop("disabled", false);
             }
+        });
+
+        connection.on("OnLeaveMessageRoom", function () {
+            setSignInCss(currentMessageRoomId);
+            currentMessageRoomId = null;
+        });
+
+        connection.on("OnCreateMessageRoom", function (messageRoom) {
+            appendMessageRoom(messageRoom.id, messageRoom.name);
+            goLastMessageRoom(500);
+        });
+
+        connection.on("OnReceiveMessage", function (senderName, message) {
+            if (message.userId == yourId) {
+                appendOutgoingMessage(message.text, message.submitDateTime);
+            }
             else {
+                appendIncomeMessage(senderName, message.text, message.submitDateTime);
+            }
+
+            goLastMessage(500);
+        });
+
+        $("#btnCreateRoom").click(function () {
+            var text = $("#txtMessageRoom");
+
+            if (text.val()) {
+                connection.send("CreateMessageRoom", text.val());
+                text.val("");
+            }
+
+            $("#Modal").modal("hide");
+        });
+
+        $("#btnSendMessage").click(function () {
+            var text = $("#txtMessage");
+            if (text.val() && currentMessageRoomId != null) {
+                connection.send("SendMessage", text.val(), currentMessageRoomId);
+
+                text.val("");
                 $("#btnSendMessage").prop("disabled", true);
             }
         });
 
-        $("#txtMessage").on("keyup", function () {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                $("#btnSendMessage").click();
-            }
-        });
+        $(document).on("click", ".sign-in", function () {
+            var messageRoomId = $(this).attr("id");
 
-        $("#btnSearchRoom").click(function () {
-            var keyword = $("#txtSearchRoom").val();
-            if (keyword) {
-                $.ajax({
-                    url: "/api/messageroom/search/" + keyword,
-                    method: "get",
-                    contentType: 'application/json',
-                    success: function (response) {
-                        if (response.length > 0) {
-                            $("#btnCreateRoomIcon").hide();
-                            $("#btnDefaultRoom").show();
-                            disconnectFromCurrentRoom();
-                            clearAllMessageRooms();
-                            for (i = 0; i < response.length; i++) {
-                                appendMessageRoom(response[i].id, response[i].name);
-                            }
-                        }
-                        else {
-                            alert('Not Found!');
-                        }
-                    },
-                    error: function () {
-                        alert('an error occured!');
-                    }
-                });
-            }
-        });
-
-        $("#btnSearchMessage").click(function () {
-            var keyword = $("#txtSearchMessage").val();
-            if (keyword) {
-                $.ajax({
-                    url: "/api/message/search/" + keyword,
-                    method: "get",
-                    contentType: 'application/json',
-                    success: function (response) {
-                        if (response.length > 0) {
-                            $("#btnSearchMessage").hide();
-                            $("#btnDefaultMessage").show();
-                            disconnectFromCurrentRoom();
-                            for (i = 0; i < response.length; i++) {
-                                if (response[i].userId == yourId) {
-                                    appendOutgoingSearchedMessage(response[i].text, response[i].messageRoomName, response[i].submitDateTime);
-                                }
-                                else {
-                                    appendIncomeSearchedMessage(response[i].userName, response[i].messageRoomName, response[i].text, response[i].submitDateTime);
-                                }
-                            }
-                        }
-                        else {
-                            alert('Not found any message!');
-                        }
-                    },
-                    error: function () {
-                        alert('an error occured!');
-                    }
-                });
-            }
-        });
-
-        $("#btnDefaultRoom").click(function () {
-            $("#txtSearchRoom").val('');
-            clearAllMessageRooms();
-            getAllMessageRooms();
-            $("#btnCreateRoomIcon").show();
-            $("#btnDefaultRoom").hide();
-        });
-
-        $("#btnDefaultMessage").click(function () {
-            $("#txtSearchMessage").val('');
-            clearAllMessage();
-            getAllMessages(currentMessageRoomId);
-            $("#btnSearchMessage").show();
-            $("#btnDefaultMessage").hide();
-        });
-
-        $("#txtMessageRoom").on("input", function () {
-            if ($("#txtMessageRoom").val().trim()) {
-                $("#btnCreateRoom").prop("disabled", false);
+            if (messageRoomId == currentMessageRoomId) {
+                clearAllMessage();
+                connection.send("LeaveMessageRoom", messageRoomId);
             }
             else {
-                $("#btnCreateRoom".prop("disabled", true));
+                if (currentMessageRoomId != null) {
+                    clearAllMessage();
+                    connection.send("LeaveMessageRoom", messageRoomId);
+                }
+
+                connection.send("JoinMessageRoom", messageRoomId);
             }
         });
 
-        $("#btnExit").click(function () {
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    function getAllMessages(messageRoomId) {
+        if (messageRoomId) {
             $.ajax({
-                url: "/api/user/logout",
+                url: "/api/message/getAll/" + messageRoomId,
                 method: "get",
                 contentType: 'application/json',
-                success: function () {
-                    window.location.replace("/home/index");
+                success: function (response) {
+                    for (i = 0; i < response.length; i++) {
+                        if (response[i].userId == yourId) {
+                            appendOutgoingMessage(response[i].text, response[i].submitDateTime);
+                        }
+                        else {
+                            appendIncomeMessage(response[i].name, response[i].text, response[i].submitDateTime);
+                        }
+                    }
+
+                    goLastMessage();
                 },
                 error: function () {
                     alert('an error occured!');
                 }
             });
-        });
-
-        function appendMessageRoom(id, name) {
-            $("#messageRooms").append('<br /><button id="' + id + '" class="button sign-in">' + name + '</button><br />');
-        }
-
-        function appendIncomeMessage(name, text, date) {
-            date = new Date(Date.parse(date));
-            $("#messages").append('<div class="incoming-msg"><div class= "received-msg" style="margin-left: 5px;"><div class="received-withd-msg"><label style="color:#6d6185;">' + name + ':</label><p>' + text + '</p><span class="time-date">' + formatDate(date) + '</span></div><br /></div></div>');
-        }
-
-        function appendOutgoingMessage(text, date) {
-            date = new Date(Date.parse(date));
-            $("#messages").append('<div class="outgoing-msg"><div class="sent-msg"><p>' + text + '</p><span class="time-date">' + formatDate(date) + '</span><br /></div></div>');
-        }
-
-        function appendIncomeSearchedMessage(name, room, text, date) {
-            date = new Date(Date.parse(date));
-            $("#messages").append('<div class="incoming-msg"><div class= "received-msg" style="margin-left: 5px;"><div class="received-withd-msg"><label style="color:#6d6185;">' + name + ':</label><p>' + text + '</p><span class="time-date">' + formatDate(date) + " from " + room + '</span></div><br /></div></div>');
-        }
-
-        function appendOutgoingSearchedMessage(text, room, date) {
-            date = new Date(Date.parse(date));
-            $("#messages").append('<div class="outgoing-msg"><div class="sent-msg"><p>' + text + '</p><span class="time-date">' + formatDate(date) + " from " + room + '</span><br /></div></div>');
-        }
-
-        function clearAllMessage() {
-            $("#messages").empty();
-        }
-
-        function clearAllMessageRooms() {
-            $("#messageRooms").empty();
-        }
-
-        function setSignInCss(messageRoomId) {
-            $("#" + messageRoomId).css("background", "#009ED8");
-        }
-
-        function setSignOutCss(messageRoomId) {
-            $("#" + messageRoomId).css("background", "#449d44");
-        }
-
-        function disconnectFromCurrentRoom() {
-            if (currentMessageRoomId) {
-                clearAllMessage();
-                connection.send("LeaveMessageRoom", currentMessageRoomId);
-            }
-        }
-
-        function formatDate(date) {
-            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-            return days[date.getDay()] + " " + date.getDate() + " " + months[date.getMonth()] + " " + date.getHours() + ":" + date.getMinutes();
-        }
-
-        function goLastMessage(duration = 0) {
-            $("#messages").animate({ scrollTop: $('#messages').prop("scrollHeight") }, duration);
-        }
-
-        function goLastMessageRoom(duration = 0) {
-            $("#messageRooms").animate({ scrollTop: $('#messageRooms').prop("scrollHeight") }, duration);
         }
     }
+
+    function getAllMessageRooms() {
+        $.ajax({
+            url: "/api/messageroom/getall",
+            method: "get",
+            contentType: 'application/json',
+            success: function (response) {
+                for (i = 0; i < response.length; i++) {
+                    appendMessageRoom(response[i].id, response[i].name);
+                }
+            },
+            error: function () {
+                alert('an error occured!');
+            }
+        });
+    }
+
+    $("#txtMessageRoom").on("keyup", function () {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            $("#btnCreateRoom").click();
+        }
+    });
+
+    $("#txtMessage").on("input", function () {
+        if ($("#txtMessage").val().trim() && currentMessageRoomId != null) {
+            $("#btnSendMessage").prop("disabled", false);
+        }
+        else {
+            $("#btnSendMessage").prop("disabled", true);
+        }
+    });
+
+    $("#txtMessage").on("keyup", function () {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            $("#btnSendMessage").click();
+        }
+    });
+
+    $("#btnSearchRoom").click(function () {
+        var keyword = $("#txtSearchRoom").val();
+        if (keyword) {
+            $.ajax({
+                url: "/api/messageroom/search/" + keyword,
+                method: "get",
+                contentType: 'application/json',
+                success: function (response) {
+                    if (response.length > 0) {
+                        $("#btnCreateRoomIcon").hide();
+                        $("#btnDefaultRoom").show();
+
+                        disconnectFromCurrentRoom();
+                        clearAllMessageRooms();
+
+                        for (i = 0; i < response.length; i++) {
+                            appendMessageRoom(response[i].id, response[i].name);
+                        }
+                    }
+                    else {
+                        alert('Not Found!');
+                    }
+                },
+                error: function () {
+                    alert('an error occured!');
+                }
+            });
+        }
+    });
+
+    $("#btnSearchMessage").click(function () {
+        var keyword = $("#txtSearchMessage").val();
+
+        if (keyword) {
+            $.ajax({
+                url: "/api/message/search/" + keyword,
+                method: "get",
+                contentType: 'application/json',
+                success: function (response) {
+                    if (response.length > 0) {
+                        $("#btnSearchMessage").hide();
+                        $("#btnDefaultMessage").show();
+
+                        disconnectFromCurrentRoom();
+
+                        for (i = 0; i < response.length; i++) {
+                            if (response[i].userId == yourId) {
+                                appendOutgoingSearchedMessage(response[i].text, response[i].messageRoomName, response[i].submitDateTime);
+                            }
+                            else {
+                                appendIncomeSearchedMessage(response[i].userName, response[i].messageRoomName, response[i].text, response[i].submitDateTime);
+                            }
+                        }
+                    }
+                    else {
+                        alert('Not found any message!');
+                    }
+                },
+                error: function () {
+                    alert('an error occured!');
+                }
+            });
+        }
+    });
+
+    $("#btnDefaultRoom").click(function () {
+        $("#txtSearchRoom").val('');
+
+        clearAllMessageRooms();
+        getAllMessageRooms();
+
+        $("#btnCreateRoomIcon").show();
+        $("#btnDefaultRoom").hide();
+    });
+
+    $("#btnDefaultMessage").click(function () {
+        $("#txtSearchMessage").val('');
+
+        clearAllMessage();
+        getAllMessages(currentMessageRoomId);
+
+        $("#btnSearchMessage").show();
+        $("#btnDefaultMessage").hide();
+    });
+
+    $("#txtMessageRoom").on("input", function () {
+        if ($("#txtMessageRoom").val().trim()) {
+            $("#btnCreateRoom").prop("disabled", false);
+        }
+        else {
+            $("#btnCreateRoom".prop("disabled", true));
+        }
+    });
+
+    $("#btnExit").click(function () {
+        $.ajax({
+            url: "/api/user/logout",
+            method: "get",
+            contentType: 'application/json',
+            success: function () {
+                window.location.replace("/home/index");
+            },
+            error: function () {
+                alert('an error occured!');
+            }
+        });
+    });
+
+    function appendMessageRoom(id, name) {
+        $("#messageRooms").append('<br /><button id="' + id + '" class="button sign-in">' + name + '</button><br />');
+    }
+
+    function appendIncomeMessage(name, text, date) {
+        date = new Date(Date.parse(date));
+        $("#messages").append('<div class="incoming-msg"><div class= "received-msg"><div class="received-withd-msg"><label class="label-message">' + name + ':</label><p>' + text + '</p><span class="time-date">' + formatDate(date) + '</span></div><br /></div></div>');
+    }
+
+    function appendOutgoingMessage(text, date) {
+        date = new Date(Date.parse(date));
+        $("#messages").append('<div class="outgoing-msg"><div class="sent-msg"><p>' + text + '</p><span class="time-date">' + formatDate(date) + '</span><br /></div></div>');
+    }
+
+    function appendIncomeSearchedMessage(name, room, text, date) {
+        date = new Date(Date.parse(date));
+        $("#messages").append('<div class="incoming-msg"><div class= "received-msg"><div class="received-withd-msg"><label class="label-message">' + name + ':</label><p>' + text + '</p><span class="time-date">' + formatDate(date) + " from " + room + '</span></div><br /></div></div>');
+    }
+
+    function appendOutgoingSearchedMessage(text, room, date) {
+        date = new Date(Date.parse(date));
+        $("#messages").append('<div class="outgoing-msg"><div class="sent-msg"><p>' + text + '</p><span class="time-date">' + formatDate(date) + " from " + room + '</span><br /></div></div>');
+    }
+
+    function clearAllMessage() {
+        $("#messages").empty();
+    }
+
+    function clearAllMessageRooms() {
+        $("#messageRooms").empty();
+    }
+
+    function setSignInCss(messageRoomId) {
+        $("#" + messageRoomId).css("background", "#009ED8");
+    }
+
+    function setSignOutCss(messageRoomId) {
+        $("#" + messageRoomId).css("background", "#449d44");
+    }
+
+    function disconnectFromCurrentRoom() {
+        if (currentMessageRoomId) {
+            clearAllMessage();
+            connection.send("LeaveMessageRoom", currentMessageRoomId);
+        }
+    }
+
+    function formatDate(date) {
+        var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        return days[date.getDay()] + " " + date.getDate() + " " + months[date.getMonth()] + " " + date.getHours() + ":" + date.getMinutes();
+    }
+
+    function goLastMessage(duration = 0) {
+        $("#messages").animate({ scrollTop: $('#messages').prop("scrollHeight") }, duration);
+    }
+
+    function goLastMessageRoom(duration = 0) {
+        $("#messageRooms").animate({ scrollTop: $('#messageRooms').prop("scrollHeight") }, duration);
+    }
+}
+
 </script>

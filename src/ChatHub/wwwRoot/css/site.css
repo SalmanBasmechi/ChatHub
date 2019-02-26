@@ -223,6 +223,7 @@ img {
     padding: 0 0 0 10px;
     vertical-align: top;
     width: 92%;
+    margin-left: 5px;
 }
 
 .received-withd-msg p {
@@ -284,6 +285,8 @@ img {
 .type-message {
     border-top: 1px solid #c4c4c4;
     position: relative;
+    position: relative;
+    bottom: -20px;
 }
 
 .msg-send-btn {
@@ -390,6 +393,7 @@ img {
 
 .btn-noneoutline {
     outline: none !important;
+    cursor: pointer;
 }
 
 .plus {
@@ -443,5 +447,118 @@ img {
 .send-message {
     margin-top: 10px;
     margin-left: 15px;
+    cursor: pointer;
 }
 
+.index-container {
+    position: fixed;
+    top: 30%;
+}
+
+.index-auto {
+    background-color: #f1f1f7
+}
+
+.index-input {
+    width: 400px;
+}
+
+.index-control {
+    margin-top: 20px;
+    width: 400px;
+}
+
+.login-index {
+    margin-top: 20px;
+    width: 400px;
+}
+
+.fade-modal {
+    margin-top: 15%;
+}
+
+.modal-close {
+    outline: none;
+}
+
+.left-seach {
+    position: relative;
+    top: -25px;
+}
+
+.left-plus {
+    float: right;
+    margin-top: 2px;
+    position: relative;
+    bottom: -25px;
+}
+
+.left-icon-p {
+    margin-left: 25px;
+    margin-top: 7px;
+    color: #707070;
+    cursor: pointer;
+    display: inline;
+}
+
+.left-page-arrow {
+    float: right;
+    margin-top: 2px;
+    position: relative;
+    bottom: -25px;
+    display: none;
+}
+
+.left-arrow-icon {
+    margin-left: 25px;
+    margin-top: 7px;
+    color: #707070;
+    cursor: pointer;
+    display: inline;
+}
+
+.left-search-width {
+    width: 95%;
+}
+
+.left-search-width-two {
+    width: 90%;
+}
+
+.right-page-arrow{
+    display: none;
+}
+
+.text-message {
+    position: relative;
+    top: 10px;
+}
+
+.button-send-message {
+    float: right;
+    position: relative;
+    top: -25px;
+}
+
+.label-message {
+    color: #6d6185;
+}
+
+.navbar-layout {
+    width: 100%;
+}
+
+.chathub {
+    float: left;
+    margin-left: 20%;
+}
+
+.sign-layout {
+    float: left;
+    position: relative;
+    top: 10px;
+}
+
+.sign-in-icon {
+    cursor: pointer;
+}

@@ -21,11 +21,11 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div style="width:100%">
-                <div style="float: left; margin-left: 20%;"><a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ChatHub</a> </div>
+            <div class="navbar-layout">
+                <div class="chathub"><a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ChatHub</a> </div>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <div style="float: left; position: relative; top: 10px;"> <i id="btnExit" class="fa fa-sign-out" aria-hidden="true" title="Sign out" data-toggle="tooltip" style="cursor: pointer; "></i></div>
+                    <div class="sign-layout"> <i id="btnExit" class="fa fa-sign-out sign-in-icon" aria-hidden="true" title="Sign out" data-toggle="tooltip"></i></div>
                 }
             </div>
         </nav>
