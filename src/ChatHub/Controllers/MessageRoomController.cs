@@ -17,7 +17,7 @@ namespace ChatHub.Controllers
         {
             this.dbContext = dbContext;
         }
-        
+
         public async Task<JsonResult> GetAll()
         {
             var messageRooms = await dbContext.MessageRooms
